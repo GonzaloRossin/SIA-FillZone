@@ -27,3 +27,6 @@ class CubeSide:
     def printSide(self):
         for j in range(self.size):
             print(self.matrix[j])
+    def rotateClockWise(self):
+        new_matrix = [[self.matrix[j][i] for j in range(len(self.matrix))] for i in range(len(self.matrix[0]) - 1, -1, -1)]
+        self.matrix = new_matrix
