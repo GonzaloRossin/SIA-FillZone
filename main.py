@@ -1,6 +1,4 @@
-import numpy as np
 
-from RubikCube.Cube import Cube
 from RubikCube.fillZone import Grid
 
 colors = {'green': 0, 'yellow': 1, 'red': 2, 'blue': 3, 'pink': 4, 'white': 5}
@@ -14,6 +12,9 @@ while True:
     color = input('choose a color:\n')
     print('------------------------------')
     fillZone.changeColor(color)
+    fillZone.printState()
+    print('#################################')
+    fillZone.addNeighBors()
     fillZone.printState()
     if fillZone.isSolved():
         break

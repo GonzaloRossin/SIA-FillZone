@@ -34,10 +34,8 @@ class Grid:
 
     def changeColor(self, color):
         colorToChange = self.colorList[color]
-        for i in range(self.N * self.N):
-            if self.grid[i].isPlayer:
-                self.grid[i].tileColor = colorToChange
-        self.addNeighBors()
+        for cell in self.playerCells:
+            cell.setColor(colorToChange)
 
     # def includeCells(self,cell):
     def isSolved(self):
