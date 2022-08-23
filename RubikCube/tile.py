@@ -9,6 +9,9 @@ class tile:
     def setColor(self, tilecolor):
         self.tileColor = tilecolor
 
+    def getColor(self):
+        return self.tileColor
+
     def hasSameColor(self, Tile):
         if self.tileColor == Tile.tileColor:
             return True
@@ -21,13 +24,13 @@ class tile:
         return self.isPlayer
 
     def hasRight(self, maxValueX):
-        return self.x < maxValueX - 1
+        return self.y < maxValueX - 1
 
-    def hasTop(self, maxValueY):
-        return self.y < maxValueY - 1
-
-    def hasLeft(self):
+    def hasTop(self):
         return self.x > 0
 
-    def hasDown(self):
+    def hasLeft(self):
         return self.y > 0
+
+    def hasDown(self, maxValueX):
+        return self.x < maxValueX - 1
