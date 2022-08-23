@@ -6,7 +6,8 @@ from RubikCube.fillZone import Grid
 colors = {'green': 0, 'yellow': 1, 'red': 2, 'blue': 3, 'pink': 4, 'white': 5}
 numToColor = {0: 'green', 1: 'yellow', 2: 'red', 3: 'blue', 4: 'pink', 5: 'white'}
 
-fillZone = Grid(14, colors)
+N = int(input('Ingrese la dimension del tablero:\n'))
+fillZone = Grid( N, colors)
 fillZone.printState()
 
 while True:
@@ -14,3 +15,6 @@ while True:
     print('------------------------------')
     fillZone.changeColor(color)
     fillZone.printState()
+    if fillZone.isSolved():
+        break
+print('juego terminado')

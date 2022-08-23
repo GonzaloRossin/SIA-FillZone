@@ -1,19 +1,33 @@
 class tile:
 
-    def __init__(self, x, y, type, tilecolor, neighbors):
+    def __init__(self, x, y, tilecolor, isPlayer):
         self.x = x
         self.y = y
-        self.type = type
-        self.TileColor = tilecolor
-        self.neighbors = neighbors
+        self.isPlayer = isPlayer
+        self.tileColor = tilecolor
 
-    def getNeighbors(self):
-        return self.neighbors
-
-    def setColor(self, color):
-        self.color = color
+    def setColor(self, tilecolor):
+        self.tileColor = tilecolor
 
     def hasSameColor(self, Tile):
-        if self.TileColor == Tile.TileColor:
+        if self.tileColor == Tile.tileColor:
             return True
         return False
+
+    def setIsPlayer(self, isPlayer):
+        self.isPlayer = isPlayer
+
+    def getIsPlayer(self):
+        return self.isPlayer
+
+    def hasRight(self, maxValueX):
+        return self.x < maxValueX - 1
+
+    def hasTop(self, maxValueY):
+        return self.y < maxValueY - 1
+
+    def hasLeft(self):
+        return self.x > 0
+
+    def hasDown(self):
+        return self.y > 0
