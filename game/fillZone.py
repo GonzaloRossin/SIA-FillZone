@@ -1,12 +1,14 @@
 import numpy as np
 import random
-from RubikCube.tile import tile
+import copy
+from game.tile import tile
 
 colors = {'green': 0, 'yellow': 1, 'red': 2, 'blue': 3, 'pink': 4, 'white': 5}
 
 
 class Grid:
     def __init__(self, N, colors):
+        self.playerColor = None
         self.N = N
         self.grid = [[] for i in range(N)]
         self.playerCells = []
@@ -14,8 +16,9 @@ class Grid:
         for i in range(N):
             for j in range(N):
                 if i == 0 and j == 0:
-                    self.grid[i].append(tile(i, j, random.choice(list(self.colorList.values())), True))
-                    # self.grid.append(tile(i, j, random.choice(list(self.colorList.values())), True))
+                    newColor = random.choice(list(self.colorList.values()))
+                    self.grid[i].append(tile(i, j, newColor, True))
+                    self.playerColor = newColor
                     self.playerCells.append(self.grid[i][j])
                     self.grid[i][j].setIsPlayer(True)
                 else:
@@ -34,10 +37,14 @@ class Grid:
 
     def changeColor(self, color):
         colorToChange = self.colorList[color]
+        self.playerColor = colorToChange
         for cell in self.playerCells:
             cell.setColor(colorToChange)
 
-    # def includeCells(self,cell):
+        self.addNeighBors()
+
+    def getPlayerColor(self):
+        return self.playerColor
     def isSolved(self):
         return len(self.playerCells) == self.N * self.N
 
@@ -63,3 +70,12 @@ class Grid:
                 if not left.getIsPlayer() and cell.hasSameColor(left):
                     left.setIsPlayer(True)
                     self.playerCells.append(left)
+
+    def getStateCopy(self):
+        return copy.deepcopy(self)
+    def getPlayerCount(self):
+        return len(self.playerCells)
+    def getColorValue(self, colorName):
+        return self.colorList[colorName]
+    def getColorDict(self):
+        return self.colorList

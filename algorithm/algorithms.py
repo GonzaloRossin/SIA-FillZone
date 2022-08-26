@@ -23,4 +23,3 @@ def bfs(visited, graph, node):  # function for BFS
                 queue.append(neighbour)
 
     queue.clear()
-
