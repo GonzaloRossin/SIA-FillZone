@@ -1,19 +1,16 @@
 from collections import defaultdict
 
 from algorithm.Node import StateNode
+import networkx as nx
 
 
 class Graph:
     # Constructor
     def __init__(self, rootNode):
         # default dictionary to store graph
-        self.graph = defaultdict(list)
-        colorDict = rootNode.gameState.getColorDict()
-        for colorName in colorDict.keys():
-            if rootNode.gameState.getPlayerColor() != colorDict[colorName]:
-                newState = rootNode.gameState.getStateCopy()
-                newState.changeColor(colorName)
-                self.graph[rootNode].append(StateNode(newState))
+        self.graph = nx.DiGraph()
+        self.rootNode = rootNode
+
 
     # Function to add an edge to graph
     def addEdge(self, rootNode, sonNode):

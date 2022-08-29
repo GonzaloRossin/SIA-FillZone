@@ -26,6 +26,20 @@ class Grid:
 
         self.addNeighBors()
 
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        if self.playerColor != other.playerColor or len(self.playerCells) != len(other.playerCells):
+            return False
+        for i in range(self.N):
+            for j in range(self.N):
+                if self.grid[i][j] != other.grid[i][j]:
+                    return False
+        return True
+
+    def __hash__(self):
+        return hash((len(self.playerCells), self.playerColor))
+
     def printState(self):
         data = np.zeros((self.N, self.N), dtype=int)
         for i in range(self.N):
@@ -45,6 +59,7 @@ class Grid:
 
     def getPlayerColor(self):
         return self.playerColor
+
     def isSolved(self):
         return len(self.playerCells) == self.N * self.N
 
@@ -73,9 +88,12 @@ class Grid:
 
     def getStateCopy(self):
         return copy.deepcopy(self)
+
     def getPlayerCount(self):
         return len(self.playerCells)
+
     def getColorValue(self, colorName):
         return self.colorList[colorName]
+
     def getColorDict(self):
         return self.colorList

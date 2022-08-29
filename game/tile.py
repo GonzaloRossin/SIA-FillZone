@@ -6,6 +6,14 @@ class tile:
         self.isPlayer = isPlayer
         self.tileColor = tilecolor
 
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return self.x == other.x and self.y == other.y and self.tileColor == other.tileColor and self.isPlayer == other.isPlayer
+
     def setColor(self, tilecolor):
         self.tileColor = tilecolor
 
