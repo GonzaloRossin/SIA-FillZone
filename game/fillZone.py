@@ -12,6 +12,7 @@ class Grid:
         self.N = N
         self.grid = [[] for i in range(N)]
         self.playerCells = []
+        self.nonControlled = []
         self.colorList = dict(colors)
         for i in range(N):
             for j in range(N):
@@ -22,7 +23,9 @@ class Grid:
                     self.playerCells.append(self.grid[i][j])
                     self.grid[i][j].setIsPlayer(True)
                 else:
-                    self.grid[i].append(tile(i, j, random.choice(list(self.colorList.values())), False))
+                    Tile = tile(i, j, random.choice(list(self.colorList.values())), False)
+                    self.grid[i].append(Tile)
+                    self.nonControlled.append(Tile)
 
         self.addNeighBors()
 
@@ -70,21 +73,25 @@ class Grid:
                 if not top.getIsPlayer() and cell.hasSameColor(top):
                     top.setIsPlayer(True)
                     self.playerCells.append(top)
+                    self.nonControlled.remove(top)
             if cell.hasRight(self.N):
                 right = self.grid[cell.x][cell.y + 1]
                 if not right.getIsPlayer() and cell.hasSameColor(right):
                     right.setIsPlayer(True)
                     self.playerCells.append(right)
+                    self.nonControlled.remove(right)
             if cell.hasDown(self.N):
                 down = self.grid[cell.x + 1][cell.y]
                 if not down.getIsPlayer() and cell.hasSameColor(down):
                     down.setIsPlayer(True)
                     self.playerCells.append(down)
+                    self.nonControlled.remove(down)
             if cell.hasLeft():
                 left = self.grid[cell.x][cell.y - 1]
                 if not left.getIsPlayer() and cell.hasSameColor(left):
                     left.setIsPlayer(True)
                     self.playerCells.append(left)
+                    self.nonControlled.remove(left)
 
     def getStateCopy(self):
         return copy.deepcopy(self)
@@ -97,3 +104,9 @@ class Grid:
 
     def getColorDict(self):
         return self.colorList
+
+    def getGrid(self):
+        return self.grid
+
+    def getUncontrolledTiles(self):
+        return self.nonControlled

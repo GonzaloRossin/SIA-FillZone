@@ -13,7 +13,7 @@ class StateNode:
     def __hash__(self):
         return hash(self.gameState)
 
-    def getNeighbors(self):
+    def processNeighbors(self):
         if not self.gameState.isSolved():
             colorDict = self.gameState.getColorDict()
             for colorName in colorDict.keys():
@@ -23,6 +23,10 @@ class StateNode:
                     if self.gameState.getPlayerCount() < newState.getPlayerCount():
                         newNode = StateNode(newState)
                         self.neighbors.append(newNode)
+
+    def getNeighbors(self):
+        if len(self.neighbors) == 0 and not self.gameState.isSolved():
+            self.processNeighbors()
         return self.neighbors
 
     def getTileCount(self):

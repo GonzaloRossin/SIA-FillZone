@@ -21,9 +21,7 @@ class tile:
         return self.tileColor
 
     def hasSameColor(self, Tile):
-        if self.tileColor == Tile.tileColor:
-            return True
-        return False
+        return self.tileColor == Tile.tileColor
 
     def setIsPlayer(self, isPlayer):
         self.isPlayer = isPlayer
