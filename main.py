@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 from game.fillZone import Grid
 from algorithm.Node import StateNode
-from algorithm.Graph import Graph
 from algorithm.algorithms import *
 
 colors = {'green': 0, 'yellow': 1, 'red': 2, 'blue': 3, 'pink': 4, 'white': 5}

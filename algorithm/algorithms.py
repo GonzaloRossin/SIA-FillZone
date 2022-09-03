@@ -16,6 +16,11 @@ def dfsIsh(visited, node):
             queue.append(neighbors[0])  # all neighbors can reach solution so I can choose any neighbor I want
 
 
+'''Since fillZone turn cost is uniform (always 1),
+ if more than one neighbor has same minValue, that is because the heuristic
+has same value => there is no need of checking which neighbor has minimal heuristic value in A* algorithm'''
+
+
 def aStar(visited, node):
     queue = [node]
     while True:
@@ -24,8 +29,9 @@ def aStar(visited, node):
             visited.append(n)
             if n.getState().isSolved():
                 break
-            neighborPicked = neighBorPicker(n.getNeighbors())
+            neighborPicked = neighborPicker(n.getNeighbors())
             queue.append(neighborPicked)
+
 
 def bronsonHeuristic(neighbor):
     DISTANCE = 0
@@ -40,21 +46,27 @@ def bronsonHeuristic(neighbor):
             maxValue = len_path[playerTile][DISTANCE][key]
     return maxValue
 
-def neighBorPicker(neighbors):
+
+def neighborPicker(neighbors):
     neighborValues = []
-    EDGE_WEIGHT =1
+    EDGE_WEIGHT = 1
     for neighbor in neighbors:
-        neighborValue = bronsonHeuristic(neighbor)
+        neighborValue = mostNeighborsHeuristic(neighbor)
         neighborValues.append(neighborValue)
 
-    minValue = neighborValues[0]+EDGE_WEIGHT #get MinValue neighbor
+    minValue = neighborValues[0] + EDGE_WEIGHT  # get MinValue neighbor
     index = 0
-    for i in range(len(neighborValues)-1):
-        if neighborValues[i+1]+EDGE_WEIGHT < minValue:
-            index = i+1
-            minValue = neighborValues[i+1]+EDGE_WEIGHT
+    for i in range(len(neighborValues) - 1):
+        if neighborValues[i + 1] + EDGE_WEIGHT < minValue:
+            index = i + 1
+            minValue = neighborValues[i + 1] + EDGE_WEIGHT
 
     return neighbors[index]
+
+
+def mostNeighborsHeuristic(neighbor):
+    totalTiles = neighbor.getState().N ** 2
+    return totalTiles - neighbor.getState().getPlayerCount()
 
 
 def bfs(visited, node, queue):  # function for BFS
@@ -64,7 +76,6 @@ def bfs(visited, node, queue):  # function for BFS
         m = queue.pop(0)
         visited.append(m)
         if m.getState().isSolved():
-            print('solved')
             break
         else:
             neighbors = m.getNeighbors()
@@ -75,10 +86,10 @@ def bfs(visited, node, queue):  # function for BFS
     queue.clear()
 
 
-def getUncontrolledColors(state):
-    colorValues = state.getColorDict().values()
+def uncontrolledColorsHeuristic(neighbor):
+    colorValues = neighbor.getState().getColorDict().values()
     colorSeen = []
-    for Tile in state.nonControlled:
+    for Tile in neighbor.getState().nonControlled:
         if len(colorSeen) == len(colorValues):
             break
         if Tile.tileColor not in colorSeen:
@@ -136,8 +147,3 @@ def generateBronsonGraph(state, playerTile):
                     else:
                         graph.add_edge(Tile, down, weight=1)
     return graph
-
-
-def BronsonDistance(state):
-    graph = generateBronsonGraph(state)
-    len_path = dict(nx.all_pairs_dijkstra(graph))
