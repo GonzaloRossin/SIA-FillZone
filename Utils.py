@@ -1,6 +1,24 @@
 import time
+
+
 def currentMilliTime():
     return round(time.time() * 1000)
+
+
+def printAlgorithmOptions():
+    print('Ingrese el algoritmo a utilizar:')
+    print('1: dfs')
+    print('2: bfs')
+    print('3: greedy')
+    print('4: A*')
+def printHeuristicOptions():
+    print('Ingrese que heuristica utilizar:')
+    print('0: bronson heuristic')
+    print('1: uncontrolled Tiles')
+    print('2: most neighbors')
+    print('3: Bronson + most neighbors')
+    print('4: Bronson + uncontrolled tiles')
+    print('5: uncontrolled tiles + most neighbors')
 
 
 def getTotalExpandedNodes(visited):
@@ -18,6 +36,8 @@ def getColorSteps(visited):
         if node != visited[len(visited) - 1]:
             toReturn += ' ---> '
     return toReturn
+
+
 def getBoardDimensions(visited):
     toRet = ''
     toRet += str(visited[0].getState().N)

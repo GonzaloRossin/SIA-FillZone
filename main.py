@@ -13,27 +13,37 @@ numToColor = {0: 'green', 1: 'yellow', 2: 'red', 3: 'blue', 4: 'pink', 5: 'white
 N = int(input('Ingrese la dimension del tablero:\n'))
 fillZone = Grid(N, colors)
 rootNode = StateNode(fillZone)
-visited = []
-queue = []
-graph = []
-# dfsIsh(visited, rootNode, graph)
-t0 = currentMilliTime()
-aStar(visited, rootNode)
-processing_time = currentMilliTime() - t0
-dataSummarize(visited, processing_time)
-'''while True:
-    color = input('choose a color:\n')
+printAlgorithmOptions()
+algorithmOption = int(input())
+if algorithmOption == 1:
+    visited = []
+    t0 = currentMilliTime()
+    dfsIsh(visited, rootNode)
+    processing_time = currentMilliTime() - t0
+    dataSummarize(visited, processing_time)
+elif algorithmOption == 2:
+    visited = []
+    queue = []
+    t0 = currentMilliTime()
+    bfs(visited, rootNode, queue)
+    processing_time = currentMilliTime() - t0
+    dataSummarize(visited, processing_time)
+elif algorithmOption == 3:
+    printHeuristicOptions()
+    option = input()
+    visited = []
+    t0 = currentMilliTime()
+    greedy(visited, rootNode, option)
+    processing_time = currentMilliTime() - t0
+    dataSummarize(visited, processing_time)
+elif algorithmOption == 4:
+    printHeuristicOptions()
+    option = int(input())
+    visited = []
+    t0 = currentMilliTime()
+    aStar(visited, rootNode, option)
+    processing_time = currentMilliTime() - t0
+    dataSummarize(visited, processing_time)
+else:
+    print('invalid option')
 
-    print('------------------------------')
-    fillZone.changeColor(color)
-    fillZone.printState()
-    if fillZone.isSolved():
-        break
-print('juego terminado')'''
-'''visited = []
-queue = []
-#bfs(visited, rootNode, queue)
-dfsIsh(visited,rootNode)'''
-# for node in visited:
-#    print('---------------------')
-#    node.getState().printState()

@@ -21,7 +21,7 @@ def dfsIsh(visited, node):
 has same value => there is no need of checking which neighbor has minimal heuristic value in A* algorithm'''
 
 
-def aStar(visited, node):
+def aStar(visited, node, option):
     queue = [node]
     while True:
         n = queue.pop(0)
@@ -29,7 +29,19 @@ def aStar(visited, node):
             visited.append(n)
             if n.getState().isSolved():
                 break
-            neighborPicked = neighborPicker(n.getNeighbors())
+            neighborPicked = neighborPicker(n.getNeighbors(), option, 1)
+            queue.append(neighborPicked)
+
+
+def greedy(visited, node, option):
+    queue = [node]
+    while True:
+        n = queue.pop(0)
+        if n not in visited:
+            visited.append(n)
+            if n.getState().isSolved():
+                break
+            neighborPicked = neighborPicker(n.getNeighbors(), option, 0)
             queue.append(neighborPicked)
 
 
@@ -47,11 +59,31 @@ def bronsonHeuristic(neighbor):
     return maxValue
 
 
-def neighborPicker(neighbors):
+def heuristicSum(neighbor, option):
+    if option == 0:
+        return bronsonHeuristic(neighbor) + mostNeighborsHeuristic(neighbor)
+    elif option == 1:
+        return bronsonHeuristic(neighbor) + uncontrolledColorsHeuristic(neighbor)
+    elif option == 2:
+        return uncontrolledColorsHeuristic(neighbor) + mostNeighborsHeuristic(neighbor)
+
+
+def neighborPicker(neighbors, heuristic, algorithm):
     neighborValues = []
-    EDGE_WEIGHT = 1
+    EDGE_WEIGHT = algorithm
     for neighbor in neighbors:
-        neighborValue = mostNeighborsHeuristic(neighbor)
+        if heuristic == 0:
+            neighborValue = bronsonHeuristic(neighbor)
+        elif heuristic == 1:
+            neighborValue = uncontrolledColorsHeuristic(neighbor)
+        elif heuristic == 2:
+            neighborValue = mostNeighborsHeuristic(neighbor)
+        elif heuristic == 3:
+            neighborValue = heuristicSum(neighbor, 0)
+        elif heuristic == 4:
+            neighborValue = heuristicSum(neighbor, 1)
+        else:
+            neighborValue = heuristicSum(neighbor, 2)
         neighborValues.append(neighborValue)
 
     minValue = neighborValues[0] + EDGE_WEIGHT  # get MinValue neighbor
