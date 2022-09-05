@@ -5,12 +5,26 @@ def currentMilliTime():
     return round(time.time() * 1000)
 
 
+def getColors():
+    colorDict = {}
+    f = open("colors.txt", 'r')
+    j = 0
+    lines = f.readlines()
+    for line in lines:
+        line = line.replace('\n', '')
+        colorDict[line] = j
+        j += 1
+    return colorDict
+
+
 def printAlgorithmOptions():
     print('Ingrese el algoritmo a utilizar:')
     print('1: dfs')
     print('2: bfs')
     print('3: greedy')
     print('4: A*')
+
+
 def printHeuristicOptions():
     print('Ingrese que heuristica utilizar:')
     print('0: bronson heuristic')

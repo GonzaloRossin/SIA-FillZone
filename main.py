@@ -7,9 +7,7 @@ from algorithm.Node import StateNode
 from algorithm.algorithms import *
 from Utils import *
 
-
-colors = {'green': 0, 'yellow': 1, 'red': 2, 'blue': 3, 'pink': 4, 'white': 5}
-numToColor = {0: 'green', 1: 'yellow', 2: 'red', 3: 'blue', 4: 'pink', 5: 'white'}
+colors = getColors()
 N = int(input('Ingrese la dimension del tablero:\n'))
 fillZone = Grid(N, colors)
 rootNode = StateNode(fillZone)
