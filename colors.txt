@@ -4,3 +4,5 @@ red
 blue
 pink
 white
+black
+purple

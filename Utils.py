@@ -1,5 +1,9 @@
 import time
 
+import matplotlib.pyplot as plt
+from matplotlib.colors import Colormap, ListedColormap
+import numpy as np
+
 
 def currentMilliTime():
     return round(time.time() * 1000)
@@ -41,15 +45,37 @@ def getTotalExpandedNodes(visited):
         total += len(state.getNeighbors())
     return total
 
-
+def getInvertedColorDict(visited):
+    invertedDict = {}
+    colorDict = visited[0].getState().getColorDict()
+    for key in colorDict.keys():
+        invertedDict[colorDict[key]] = key
+    return  invertedDict
 def getColorSteps(visited):
-    numToColor = {0: 'green', 1: 'yellow', 2: 'red', 3: 'blue', 4: 'pink', 5: 'white'}
+    numToColor = getInvertedColorDict(visited)
     toReturn = ''
     for node in visited:
         toReturn += numToColor[node.getState().getPlayerColor()]
         if node != visited[len(visited) - 1]:
             toReturn += ' ---> '
     return toReturn
+
+def visualize(visited):
+    turns = []
+    cmap = ListedColormap(visited[0].getState().getColorDict().keys())
+    for node in visited:
+        grid = node.getState().getGrid()
+        dimension = node.getState().N
+        matrix = np.zeros(dimension*dimension, dtype=int)
+        matrix = matrix.reshape((dimension, dimension))
+        for i in range(dimension):
+            for j in range(dimension):
+                matrix[i][j] = grid[i][j].tileColor
+        turns.append(matrix)
+
+        plt.matshow(matrix, cmap=cmap)
+        plt.show()
+
 
 
 def getBoardDimensions(visited):
@@ -68,3 +94,4 @@ def dataSummarize(visited, processingTime):
     print('expanded nodes: ', len(visited), ' nodes')
     print('processing time: ', processingTime, ' ms')
     print('solution steps:\n', getColorSteps(visited))
+    visualize(visited)
