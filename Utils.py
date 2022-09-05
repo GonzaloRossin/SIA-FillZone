@@ -1,7 +1,8 @@
 import time
 
 import matplotlib.pyplot as plt
-from matplotlib.colors import Colormap, ListedColormap
+from matplotlib.colors import ListedColormap
+from tkinter import *
 import numpy as np
 
 
@@ -72,8 +73,7 @@ def visualize(visited):
             for j in range(dimension):
                 matrix[i][j] = grid[i][j].tileColor
         turns.append(matrix)
-
-        plt.matshow(matrix, cmap=cmap)
+        plt.matshow(matrix, cmap=cmap, vmin=0, vmax=len(visited[0].getState().getColorDict().keys())-1)
         plt.show()
 
 

@@ -1,11 +1,7 @@
-import networkx as nx
-import matplotlib.pyplot as plt
-import time
-
-from game.fillZone import Grid
+from Utils import *
 from algorithm.Node import StateNode
 from algorithm.algorithms import *
-from Utils import *
+from game.fillZone import Grid
 
 colors = getColors()
 N = int(input('Ingrese la dimension del tablero:\n'))
