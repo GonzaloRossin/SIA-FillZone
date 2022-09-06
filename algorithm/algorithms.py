@@ -68,9 +68,9 @@ def heuristicSum(neighbor, option):
         return uncontrolledColorsHeuristic(neighbor) + mostNeighborsHeuristic(neighbor)
 
 
-def neighborPicker(neighbors, heuristic, algorithm):
+def neighborPicker(neighbors, heuristic, edgeWeight):
     neighborValues = []
-    EDGE_WEIGHT = algorithm
+    EDGE_WEIGHT = edgeWeight
     for neighbor in neighbors:
         if heuristic == 0:
             neighborValue = bronsonHeuristic(neighbor)
@@ -101,13 +101,31 @@ def mostNeighborsHeuristic(neighbor):
     return totalTiles - neighbor.getState().getPlayerCount()
 
 
+def traceBack(node, solution):
+    queue = [node]
+
+    while queue:
+        m = queue.pop(0)
+        solution.append(m)
+        if m.getParent() is None:
+            break
+        else:
+            queue.append(m.getParent())
+
+def reverseList(solution):
+    reversed = []
+    for node in solution:
+        reversed.insert(0, node)
+    return reversed
 def bfs(visited, node, queue):  # function for BFS
+    solution = []
     queue.append(node)
 
     while queue:  # Creating loop to visit each node
         m = queue.pop(0)
         visited.append(m)
         if m.getState().isSolved():
+            traceBack(m, solution)
             break
         else:
             neighbors = m.getNeighbors()
@@ -116,6 +134,8 @@ def bfs(visited, node, queue):  # function for BFS
                     queue.append(node)
 
     queue.clear()
+    solution = reverseList(solution)
+    return solution
 
 
 def uncontrolledColorsHeuristic(neighbor):

@@ -1,8 +1,9 @@
 class StateNode:
 
-    def __init__(self, gameState):
+    def __init__(self, gameState, father):
         self.gameState = gameState
         self.neighbors = []
+        self.father = father
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -21,13 +22,15 @@ class StateNode:
                     newState = self.gameState.getStateCopy()
                     newState.changeColor(colorName)
                     if self.gameState.getPlayerCount() < newState.getPlayerCount():
-                        newNode = StateNode(newState)
+                        newNode = StateNode(newState, self)
                         self.neighbors.append(newNode)
 
     def getNeighbors(self):
         if len(self.neighbors) == 0 and not self.gameState.isSolved():
             self.processNeighbors()
         return self.neighbors
+    def getParent(self):
+        return self.father
 
     def getTileCount(self):
         return self.gameState.getPlayerCount()

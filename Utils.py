@@ -33,11 +33,11 @@ def printAlgorithmOptions():
 def printHeuristicOptions():
     print('Ingrese que heuristica utilizar:')
     print('0: bronson heuristic')
-    print('1: uncontrolled Tiles')
+    print('1: Remaining Colors')
     print('2: most neighbors')
     print('3: Bronson + most neighbors')
-    print('4: Bronson + uncontrolled tiles')
-    print('5: uncontrolled tiles + most neighbors')
+    print('4: Bronson + Remaining colors')
+    print('5: Remaining colors + most neighbors')
 
 
 def getTotalExpandedNodes(visited):
@@ -78,6 +78,7 @@ def visualize(visited):
 
 
 
+
 def getBoardDimensions(visited):
     toRet = ''
     toRet += str(visited[0].getState().N)
@@ -86,12 +87,19 @@ def getBoardDimensions(visited):
     return toRet
 
 
-def dataSummarize(visited, processingTime):
+def dataSummarize(visited, processingTime, solution, isBfs):
     print('board dimension: ', getBoardDimensions(visited))
     print('result: success')
-    print('solution cost: ', len(visited), ' turns')
+    if isBfs:
+        print('solution cost: ', len(solution), ' turns')
+    else:
+        print('solution cost: ', len(visited), ' turns')
     print('frontier nodes: ', getTotalExpandedNodes(visited), ' nodes')
     print('expanded nodes: ', len(visited), ' nodes')
     print('processing time: ', processingTime, ' ms')
-    print('solution steps:\n', getColorSteps(visited))
-    visualize(visited)
+    if isBfs:
+        print('solution steps:\n', getColorSteps(solution))
+        visualize(solution)
+    else:
+        print('solution steps:\n', getColorSteps(visited))
+        visualize(visited)
