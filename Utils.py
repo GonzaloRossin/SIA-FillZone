@@ -2,7 +2,6 @@ import time
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from tkinter import *
 import numpy as np
 
 
@@ -38,6 +37,11 @@ def printHeuristicOptions():
     print('3: Bronson + most neighbors')
     print('4: Bronson + Remaining colors')
     print('5: Remaining colors + most neighbors')
+
+def printPlotOptions():
+    print('Desea poder ver el paso a paso del metodo de solucion?')
+    print('1: yes')
+    print('2: no')
 
 
 def getTotalExpandedNodes(visited):
@@ -87,7 +91,7 @@ def getBoardDimensions(visited):
     return toRet
 
 
-def dataSummarize(visited, processingTime, solution, isBfs):
+def dataSummarize(visited, processingTime, solution, isBfs, plotOption):
     print('board dimension: ', getBoardDimensions(visited))
     print('result: success')
     if isBfs:
@@ -99,7 +103,9 @@ def dataSummarize(visited, processingTime, solution, isBfs):
     print('processing time: ', processingTime, ' ms')
     if isBfs:
         print('solution steps:\n', getColorSteps(solution))
-        visualize(solution)
+        if plotOption == 1:
+            visualize(solution)
     else:
         print('solution steps:\n', getColorSteps(visited))
-        visualize(visited)
+        if plotOption == 1:
+            visualize(visited)
